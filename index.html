@@ -1,0 +1,384 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Javascript Gestures</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <script src="./src/gestures.js"></script>
+    <style>
+        body{
+            font-family: sans-serif;
+            font-size: 14px;
+            padding: 0px;
+            margin : 0px;
+        }
+        .content {
+            padding: 20px;
+        }
+        pre {
+            overflow-x: auto;
+            background: #f3f3f3;
+            padding: 10px 0px;
+            border: groove;
+            font-size: 12px;
+        }
+        .container {
+            position: relative;
+            min-height: 200px;
+            background: #f3f3f3;
+            padding: 10px;
+            border: solid 1px #e2e2e2;
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+        }
+        .object {
+            border: solid 1px #d8d8d8;
+            display: block;
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            text-align: center;
+            background: #eaeaea;
+            box-shadow: 3px 5px 5px #5f5f5f;
+        }
+        .object span {
+            margin: 20% 0px;
+            display: block;
+        }
+        .log {
+            position: fixed;
+            bottom: 0px;
+            z-index: 10;
+            background: #f3f3f3;
+            width: 100%;
+            padding: 10px;
+            border: solid 1px #e0e0e0;
+            font-size: 12px;
+            font-family: monospace;
+            color: #2b921b;
+        }
+
+    </style>
+    <script>
+        function consoleLog(value){
+            var date = new Date();
+            var time = ((date.getHours() < 10)?"0":"") + date.getHours() +":"+ ((date.getMinutes() < 10)?"0":"") + date.getMinutes() +":"+ ((date.getSeconds() < 10)?"0":"") + date.getSeconds();
+            document.getElementById('log').innerHTML = value + ' ' + time;
+        }
+        function noscroll() {
+            window.scrollTo( 0, 0 );
+        }
+        
+    </script>
+</head>
+<body>
+<div class="log" id="log">Log me</div>
+<div class=" content">
+
+
+
+<h2 id="h2">Javascript Gestures</h2> 
+
+<p><b>Getting Started</b></p>
+Initialize this script then open code inspector and follow your console logs.<br/>
+This library <b>works only for mobile mode</b>
+
+
+<pre>
+    &lt;script src=&quot;./src/gestures.js&quot;&gt;&lt;/script&gt;
+</pre>
+
+
+<h3>Swipe</h3>
+
+<pre>
+    &lt;div id=&quot;swipe-example&quot;data-gestures=&quot;swipe&quot;&gt;
+        Swipe Me
+    &lt;/div&gt;
+    &lt;script&gt;
+        var elm = document.getElementById('swipe-example');
+        elm.addEventListener(&quot;onswipe&quot;,function(e){
+        });
+    &lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" id="swipe-example"data-gestures="swipe" >
+    Swipe Me
+</div>
+<script>
+    var elm = document.getElementById('swipe-example');
+    console.log(elm);
+    elm.addEventListener("onswipe",function(e){
+        consoleLog('Swiped !')
+        console.log('Swiped !');
+        console.log(e)
+    });
+</script>
+
+
+<h3>Tap &amp; Double Tap (Tapping with two fingers) </h3>
+
+<pre>
+    &lt;div id=&quot;tap-example&quot; data-gestures=&quot;tap&quot; &gt;
+        Tap Me
+    &lt;/div&gt;
+    
+    &lt;div id=&quot;tap2-example&quot; data-gestures=&quot;tap2&quot; &gt;
+        Double Tap Me
+    &lt;/div&gt;
+    &lt;script&gt;
+        var elm1 = document.getElementById('tap-example');
+        elm1.addEventListener(&quot;ontap&quot;,function(e){
+        });    
+
+        var elm2 = document.getElementById('tap2-example');
+        elm2.addEventListener(&quot;ontap2&quot;,function(e){
+
+        });
+    &lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" >
+    <div class="object" id="tap-example" data-gestures="tap" >
+        <span>Tap Me</span>
+    </div>
+
+    <div class="object" id="tap2-example" data-gestures="tap2" style="left:160px" >
+        <span>Tap Me <br/> With <br/> Two Finger</span>
+    </div>
+</div>
+<script>
+    var elm1 = document.getElementById('tap-example');
+    elm1.addEventListener("ontap",function(e){
+        consoleLog('Tapped !');
+        console.log('Tapped !');
+        console.log(e)
+    });
+
+    var elm2 = document.getElementById('tap2-example');
+    elm2.addEventListener("ontap2",function(e){
+        consoleLog('Tapped With Two Fingers !');
+        console.log('Tapped With Two Fingers!');
+        console.log(e)
+    });
+</script>
+
+
+<h3>Rotate</h3>
+
+<pre>
+    &lt;div id=&quot;rotate-example&quot; data-gestures=&quot;rotate&quot; &gt;
+        Rotate Me
+    &lt;/div&gt;
+    
+    &lt;script&gt;
+        var elm = document.getElementById('rotate-example');
+        elm.addEventListener(&quot;onrotate&quot;,function(e){            
+        });
+    &lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" >
+    <div class="object" id="rotate-example" data-gestures="rotate" >
+            <span>Rotate Me<br/> With <br/> Two Fingers</span>
+    </div>
+</div>
+
+<script>
+    var elm = document.getElementById('rotate-example');
+    elm.addEventListener("onrotate",function(e){
+
+        this.style.webkitTransform = 'rotate('+e.angle+'deg)'; 
+        this.style.mozTransform    = 'rotate('+e.аngle+'deg)'; 
+        this.style.msTransform     = 'rotate('+e.аngle+'deg)'; 
+        this.style.oTransform      = 'rotate('+e.аngle+'deg)'; 
+        this.style.transform       = 'rotate('+e.аngle+'deg)'; 
+
+        consoleLog('Ritated With Two Fingers !');
+        console.log('Ritated With Two Fingers !');
+        console.log(e)
+    });
+</script>
+
+
+
+<h3>Rotate With Single Touch</h3>
+
+<pre>
+    &lt;div id=&quot;rotate-single-example&quot; data-gestures=&quot;singlerotate&quot; &gt;
+        Rotate Me
+    &lt;/div&gt;
+    &lt;script&gt;
+        var elm = document.getElementById('rotate-single-example');
+        elm.addEventListener(&quot;onsinglerotate&quot;,function(e){
+        });
+    &lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" >
+    <div class="object" id="rotate-single-example" data-gestures="singlerotate" >
+        <span>Rotate Me<br/> With <br/> One Finger</span>
+    </div>
+</div>
+
+<script>
+    var elm = document.getElementById('rotate-single-example');
+    var singleRotateAngle = 0;
+    elm.addEventListener("onsinglerotate",function(e){
+        singleRotateAngle += e.angleOffset;
+        this.style.webkitTransform = 'rotate('+singleRotateAngle+'deg)'; 
+        this.style.mozTransform    = 'rotate('+singleRotateAngle+'deg)'; 
+        this.style.msTransform     = 'rotate('+singleRotateAngle+'deg)'; 
+        this.style.oTransform      = 'rotate('+singleRotateAngle+'deg)'; 
+        this.style.transform       = 'rotate('+singleRotateAngle+'deg)'; 
+
+        consoleLog('Ritated with one Finger !');
+        console.log('Ritated with one Finger !');
+        console.log(e)
+    });
+</script>
+
+
+<h3>Pan</h3>
+
+<pre>
+    &lt;div id=&quot;pan-example&quot; data-gestures=&quot;pan&quot; &gt;
+        Pin Me
+    &lt;/div&gt;
+    
+    &lt;script&gt;
+        var elm = document.getElementById('pan-example');
+        elm.addEventListener(&quot;onpan&quot;,function(e){
+        });
+    &lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" >
+    <div class="object" id="pan-example" data-gestures="pan" >
+        <span>Pin Me</span>
+    </div>
+</div>
+
+<script>
+    var elm = document.getElementById('pan-example');
+    var panTop = 0;
+    var panLeft = 0;
+    elm.addEventListener("onpan",function(e){
+
+        panLeft += e.deltaX;
+        panTop += e.deltaY;
+        this.style.transform = 'translate('+panLeft+'px,'+panTop+'px)';
+
+        consoleLog('Pinned !');
+        console.log('Pinned !');
+        console.log(e)
+    });
+</script>
+
+
+
+<h3>Pinch</h3>
+
+<pre>
+&lt;div id=&quot;pinch-example&quot; data-gestures=&quot;pinch&quot; &gt;
+    Pinch Me
+&lt;/div&gt;
+
+&lt;script&gt;
+    var elm = document.getElementById('pinch');
+        elm.addEventListener(&quot;onpinch&quot;,function(e){
+    });
+&lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" >
+    <div class="object" id="pinch-example" data-gestures="pinch" >
+        <span>Pinch Me</span>
+    </div>
+</div>
+
+<script>
+     var elm = document.getElementById('pinch-example');
+
+    var angle3  = 0;
+    var pinch1t = 150;
+    var pinch1l = 10;
+    var pinch1w = 150;
+    var pinch1h = 100;
+
+    elm.addEventListener("onpinch",function(e){
+        var pw = pinch1w*e.factorOffset;
+        var ph = pinch1h*e.factorOffset;
+        var pl = e.focusOffset.x - (pw-pinch1w)*e.targetFocus.x;
+        var pt = e.focusOffset.y - (ph-pinch1h)*e.targetFocus.y;
+
+        pinch1l += pl;
+        pinch1t += pt;
+        pinch1w  = pw;
+        pinch1h  = ph;
+
+        this.style.width = Math.round(pinch1w)+'px';
+        this.style.height = Math.round(pinch1h)+'px';
+
+        this.style.left = Math.round(pinch1l)+'px';
+        this.style.top = Math.round(pinch1t)+'px';
+
+        consoleLog('Pinched !');
+        console.log('Pinched !');
+        console.log(e)
+    });
+</script>
+
+
+
+<h3>Press</h3>
+
+<pre>
+&lt;div id=&quot;press-example&quot; data-gestures=&quot;press&quot; &gt;
+    Press Me
+&lt;/div&gt;
+
+&lt;script&gt;
+    var elm = document.getElementById('press');
+        elm.addEventListener(&quot;onpinch&quot;,function(e){
+    });
+&lt;/script&gt;
+</pre>
+
+<p>Example:</p>
+
+<div class="container" >
+    <div class="object" id="press-example" data-gestures="press" >
+        <span>Press Me</span>
+    </div>
+</div>
+
+<script>
+     var elm = document.getElementById('press-example');
+    elm.addEventListener("onpress",function(e){
+        consoleLog('Pressed !');
+        console.log('Pressed !');
+        console.log(e)
+    });
+</script>
+
+
+
+
+
+</div>
+</body>
+</html>
